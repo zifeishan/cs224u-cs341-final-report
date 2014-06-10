@@ -1,4 +1,15 @@
 % !TEX root = cs224_final_paper.tex
-TODO
 
-foobar
+In this paper, we introduce the novel problem of authorship
+attribution in multi-authored documents, and focus on scientific
+publications. 
+
+The core challenges to the problem is the lack of ground truth of which authors write which parts of the publication. To address this challenge,
+we devise different models include: (1) paper-level logistic regression, (2) integrating sentence-level logistic regression models, and (3) an Expectation-Maximization method to refine author models. We also propose a novel supervision method to obtain training examples.
+
+We devise a set of stylistic features as well as content-based features, and found that paper authors can be predicted with significant accuracy by exploiting authors' stylistic idiosyncrasies.
+
+Based on our initial studies on a synthetic dataset as well as a real-world dataset, we conclude several results: (1) sentence-level models sometimes, but not always, lead to better results. 
+(2) We are able to identify authors with significant accuracy, which is more than 10 times improvement over majority class baseline. 
+
+Our work shows great potentiality to attribute authorship in multi-authored documents, which challenges the assumption that simply removing names from a paper submission ensures anonymity in a double-blind process.

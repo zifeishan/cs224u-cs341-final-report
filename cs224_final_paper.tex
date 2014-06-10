@@ -13,21 +13,26 @@
 \usepackage{multirow}
 \usepackage{tabularx}
 
-% % Zifei: seems that most ACL papers use times font which is more compact
-% \usepackage{times}
-% \usepackage{url}
-% \usepackage{latexsym}
+% Zifei: seems that most ACL papers use times font which is more compact
+\usepackage{times}
+\usepackage{url}
+\usepackage{latexsym}
 
 
 \title{Authorship Attribution in Multi-author Documents}
 
-\author{ Tim Althoff \\
-  {\tt althoff@cs.stanford} \\\And
-  Denny Britz \\
-  {\tt dbritz@cs.stanford} \\\And
-  Zifei Shan \\
-  {\tt zifei@cs.stanford} \\
-}
+\author{Tim Althoff, Denny Britz, Zifei Shan \\
+  Department of Computer Science, Stanford University \\
+  {\tt \{althoff, dbritz, zifei\}@cs.stanford.edu} \\
+  }
+  
+% \author{ Tim Althoff \\
+%   {\tt althoff@cs.stanford} \\\And
+%   Denny Britz \\
+%   {\tt dbritz@cs.stanford} \\\And
+%   Zifei Shan \\
+%   {\tt zifei@cs.stanford} \\
+% }
 
 % \author{ Tim Althoff, Denny Britz, and Zifei Shan \\
 %   {\tt \{althoff, dbritz, zifei\}@cs.stanford.edu} \\
@@ -63,7 +68,9 @@
 \section{Conclusion}\label{sec:conclusion}
 \input{conclusion}
 
-\pagebreak % Tim: since its okay for cs224u not to count references
+% Zifei: sometimes it leads the paragraphs before to distribute too sparsely
+% \pagebreak % Tim: since its okay for cs224u not to count references
+
 \bibliography{cs224_final_paper}
 
 \end{document}  

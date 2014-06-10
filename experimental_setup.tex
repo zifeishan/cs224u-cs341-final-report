@@ -29,11 +29,13 @@ To test our model in the real world, we subsample the arXiv dataset. We are inte
 We sample a set of papers written by any of these authors and their coauthors, controlling each author to have at most 10 papers. We get a corpus of 234 papers, 100 authors (the 8 authors in the ``bootstrap list'' and their 92 coauthors) and 206,300 sentences.
 
 
-\subsection{Features}\ref{sec:features}
+\subsection{Features}\label{sec:features}
 
-The parameters of our models correspond to features categorized into content and style. Table \ref{table:features} contains a detailed description of the feature space we are considering. We acknowledge that that some features, such as character n-grams, are somewhat ambiguous in terms of their category and could be considered both content and style features.  
+The parameters of our models correspond to features categorized into content and style. Table \ref{table:features} contains a detailed description of the feature space we are considering. Some design decisions in our features include:
 
-Among stylistic features, \textit{function words} are defined as
+(1) We try to find a clear boundary between stylistic features and content features. While character unigrams can be regarded as purely stylistic, we found that character N-grams can reveal content (e.g. ``NCP''). Therefore we treat character N-grams as a content feature while unigrams as a stylistic feature.
+
+(2) Among stylistic features, \textit{function words} are defined as
 all words other than nouns, verbs, adjectives, and adverbs (which are
 regarded as ``content words''), indicated by their POS tags. In
 function word features, numbers are unified into a placeholder
@@ -51,7 +53,7 @@ function word features, numbers are unified into a placeholder
 Content   & Word N-grams       & Unigrams, bigrams, and trigrams of all words.        & ``a distance matrix'', ``quartet topologies embedded''   \\
           & Character N-grams  & Bigrams and trigrams of characters.                  & ``NWD'', ``Ref''                  \\
 \hline
-Stylistic & Character unigrams & Unigrams of characters.                             & \%, \{, ~                           \\
+Stylistic & Character unigrams & Unigrams of characters.                             & `\%', `\{', `?', `$\alpha$'                           \\
           & POS tag N-grams    & Unigrams and bigrams of POS tags (tagged by NLTK default Penn Treebank POS tagger). &  DT NN, PRP VBP, -LRB- NN \\
           & Function word N-grams & unigrams, bigrams, and trigrams of function words.  & ``under our'', ``but all the''    \\
           & Lengths            & Sentence length and average word length of each sentence. & 81 chars, 17 words, average word length=4.7 \\
