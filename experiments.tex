@@ -1,0 +1,80 @@
+% !TEX root = cs224_final_paper.tex
+
+\begin{table*}[htdp!]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+& LR (synthetic) & EM (synthetic)  & LR (real-world) & EM (real-world) \\ \hline
+Paper & & & & \\ \hline
+Sentence Aggregation & & & &  \\ \hline
+Sentence-level predictions & & & &  \\ \hline
+\end{tabular}
+\end{center}
+\caption{Precision for evaluating Logistic Regression and Expectation Maximization models on synthetic and real-world datasets using different classification approaches}
+\label{table:results}
+\end{table*}%
+
+In addition to the two models presented in section \ref{sec:approach} we evaluate a paper-level logistic regression classifier using the same feature set as described above. We also present results for majority-class baselines. 
+
+\subsection{Evaluation metrics}
+
+We evaluate paper-level predictions using precision@1 and average precision ~\cite{manning2008introduction} . Precision@1 is defined as the fraction of papers where the most likely author (ranked highest according to our classifier) is one of the correct co-authors of the paper. 
+Average Precision~\cite{manning2008introduction} complements precision@1 in that it captures correct predictions beyond the highest-ranked author.
+It is computed as the average precision value across all levels of recall which is equivalent to the area under the precision-recall curve.
+We also provide numbers for sentence-level precision evaluated on the synthetic dataset (sentence-level ground truth for real-world data is not available).
+
+\subsection{Results}
+
+Table \ref{table:results} shows the results. We can see that aggregated predictions outperform paper-level predictions in all cases. This is mainly due to the mixing issue discussed in section \ref{subsec:author_mixing}. EM outperform logistic regression by a significant margin in most cases. We note that the precision for a random baseline estimator is 1.78\% for the real-world dataset, and 2.78\% for the synthetic dataset. All our models use L2 regularization with the regularization parameter optimized using 5-fold cross validation. It is interesting to note that even though sentence-level precision is relatively low, aggregating the sentence predictions leads to good paper-level predictions.
+
+\subsection{Discussion}
+This section discusses our finding and specifically investigates why sentence-level models do not outperform paper-level models in all cases.
+
+First, we recognize basic assumptions of our models:
+We assume everyone writes something (). 
+Obviously this might not hold in the real-world since all authors might do something but not all might contribute writing.
+Given that we assign all sentences in a paper as positive examples to each paper author, in a way, we assume uniform distribution of author contributions.
+When lacking good negative examples we might fail to reject many sentences for an author thereby overestimating their contribution.
+Future work should make use of scientific publications with annotation on sentence- or paragraph-level to investigate this.
+
+Second, we assume that each sentence is written by a single author but recognize that multiple authors could have contributed to its writing.
+Our toy dataset was generated from single-author papers that presumably were written by its single author but this assumption might not hold on real-world papers.
+
+Third, while the sentence-level perspective has clear advantages (TODO cite section about author mixing) we must acknowledge some limitations of the proposed approach.
+Since we aggregate sentence-level predictions by voting to paper-level predictions, even when a sentence gives away authorship (e.g. by an obvious self-citation) this would only contribute a single vote among many.
+In contrast, such features could very strongly influence paper-level predictions.
+Future work could investigate hybrid approaches that aim at the best of both worlds.
+
+Fourth, assigning single authors to sentences and aggregating these hard votes to paper-level predictions could be improved.
+For instance, one might one want to use high-confidence votes. 
+In our empirical evaluations we find that this does not lead to significant performance improvements.
+For most sentences many authors will have a high likelihood since most sentences do not contain very unique and discriminative features.
+Based on more common features, e.g. character n-grams, many authors will be assigned a high-likelihood.
+One could address this by casting a vote if and only if the first ranked author is significantly more likely than the second ranked author.
+We also ran experiments in which we assigned a sentence to multiple authors. While this leads to more stability across EM iterations we do not always find significant performance improvements over the paper-level model (on the real-world dataset).
+
+
+\begin{table}[tb]
+\begin{center}
+\begin{tabular}{crr}
+\hline
+& LR Precision & EM Precision\\ \hline
+Style & & \\
+Content & & \\
+All & & \\ \hline
+\end{tabular}
+\end{center}
+\caption{Precision of sentence-based models with varying set of features}
+\label{table:experiments_features}
+\end{table}
+
+
+\subsection{Feature variations}
+
+We also explored how varying the set of features affects prediction accuracy. For the best-performing model above (EM) we varied the feature set to use content-only, style-only and a combination of both features (all). The results are shown in Table \ref{table:experiments_features}. We see that content-features account for most of the performance of the model.
+As expected, style features alone have less predictive performance. 
+However, we note that the performance of pure style features is still quite remarkable and that adding them to content features can give another boost (all features). 
+
+
+
+%\subsection{Effect of negative training data}

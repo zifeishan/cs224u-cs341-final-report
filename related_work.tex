@@ -1,0 +1,16 @@
+% !TEX root = cs224_final_paper.tex
+
+A large body of research exists on attributing authorship on the document level. 
+Approaches can broadly be categorized into varying among the dimensions of feature selection, model selection, and candidate selection ~\cite{stamatatos2009survey}. 
+Features can be divided into lexical (token- and word features), character (character n-grams), syntactic (POS tags, phrase structure), semantic (synonymous and dependencies) and application-specific features \cite{stamatatos2009survey}. 
+More sophisticated features such as local histograms~\cite{escalante2011local} and grammatical errors ~\cite{koppel2003exploiting} have also been explored. 
+Authorship attribution approaches taking into account only self-citations often perform well ~\cite{hill2003myth} compared to their supervised counterparts. 
+
+Overall, the choice of model seems to have a smaller impact than the choice of features, and a variety of supervised and unsupervised Machine Learning methods have been applied to the problem of authorship attribution~\cite{stamatatos2009survey}. 
+Simple similarity-based models (nearest-neighbors) also perform surprisingly well ~\cite{koppel2012fundamental} and often outperform more ``sophisticated'' supervised classifiers such as SVMs. 
+One of the reasons behind this is an issue known as ``masking''~\cite{narayanan2012feasibility}. The size of the candidate author set is another important dimension. Sets of hundreds of candidate authors seems most common. Once the set of candidate authors get significantly larger the problem becomes more challenging. Only few researchers have applied attribution models to web-scale data ~\cite{narayanan2012feasibility}. 
+
+Predicting authors in multi-authored scientific publications has been out of focus of the scientific community thus far (to be best of our knowledge).
+However, some work has looked at using scientific publications to predict gender~\cite{sarawgi2011gender,bergsma2012stylometric} and whether or not the publication was written by a native speaker or submitted to a workshop instead of a conference~\cite{bergsma2012stylometric}.
+
+

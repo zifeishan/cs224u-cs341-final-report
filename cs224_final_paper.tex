@@ -1,0 +1,69 @@
+\documentclass[11pt, oneside]{article}    % use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                   % See geometry.pdf to learn the layout options. There are lots.
+\usepackage{acl2014} 
+\geometry{letterpaper}                      % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                   % Activate for for rotated page geometry
+% \usepackage[parfill]{parskip}       % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}       % Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+                % TeX will automatically convert eps --> pdf in pdflatex    
+\usepackage{amssymb}
+\bibliographystyle{acl}
+%\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+% % Zifei: seems that most ACL papers use times font which is more compact
+% \usepackage{times}
+% \usepackage{url}
+% \usepackage{latexsym}
+
+
+\title{Authorship Attribution in Multi-author Documents}
+
+\author{ Tim Althoff \\
+  {\tt althoff@cs.stanford} \\\And
+  Denny Britz \\
+  {\tt dbritz@cs.stanford} \\\And
+  Zifei Shan \\
+  {\tt zifei@cs.stanford} \\
+}
+
+% \author{ Tim Althoff, Denny Britz, and Zifei Shan \\
+%   {\tt \{althoff, dbritz, zifei\}@cs.stanford.edu} \\
+% }
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+\input{abstract}
+
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+\input{introduction}
+
+\section{Related Work}\label{sec:related_work}
+\input{related_work}
+
+\section{Approach}\label{sec:approach}
+\input{approach}
+
+\section{Experimental Setup}\label{sec:experiments}
+\input{experimental_setup}
+
+\section{Results}\label{sec:results}
+\input{experiments}
+
+\section{Future Work}\label{sec:future_work}
+\input{futurework}
+
+\section{Conclusion}\label{sec:conclusion}
+\input{conclusion}
+
+\pagebreak % Tim: since its okay for cs224u not to count references
+\bibliography{cs224_final_paper}
+
+\end{document}  

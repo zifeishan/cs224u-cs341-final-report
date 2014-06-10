@@ -1,0 +1,26 @@
+% !TEX root = cs224_final_paper.tex
+
+In the future, we propose to conduct more in-depth analysis of
+individual features, iterate on feature engineering to get more
+accurate predictions, and understand he impact of different knowledge
+in authorship attribution.
+
+To address on the gap between sentence-level and paper-level
+predictions in real-world datasets, we will conduct error analysis on
+a real dataset with ground truth annotation on sentence level, to
+investigate where our method fails.
+
+We will further look into a more representative model such as
+Conditional Random Fields (CRFs), to integrate more knowledge such as
+citations, co-authorship correlation, and domain knowledge in
+scientific writing. For example, how does citation network help
+identifying authors? How do statistics of co-authorships help in
+jointly predicting multiple authors in a publication? How to integrate
+specific knowledge such as ordering of authors, positions of
+sentences, flow and structure in papers, and multiple revisions of
+sentences?
+
+Further, we want to study the robustness of our models and the impact
+of author pool size to the task: how many papers for each author do we
+need to train a good model for an author? How does increasing the
+number of authors affect the difficulty for prediction?

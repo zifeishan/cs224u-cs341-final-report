@@ -1,0 +1,27 @@
+% !TEX root = cs224_final_paper.tex
+
+Authorship attribution, the science of identifying the rightful author of a document,
+is a problem of long-standing history.
+The main idea behind statistically or computationally supported authorship attribution is that by measuring some textual features, we can distinguish between texts written by different authors.
+The pioneering study of Mendenhall \cite{mendenhall1887characteristic} in the 19th century marks the first attempt to quantify writing style on the plays of Shakespeare.
+In the first half of the 20th century it was followed by statistical studies by Yule \cite{yule1939sentence,yule1944statistical} and Zipf \cite{zipf1932selected}. 
+Later in 1964, the study by Mosteller and Wallace \cite{mosteller1964inference} on the authorship of ``The Federalist Papers'' (a series of 146 political essays written by John Jay, Alexander Hamilton, and James Madison, 12 of which claimed by both Hamilton and Madison) is considered the most influential work in authorship attribution \cite{stamatatos2009survey}. 
+% Historical successes included the confirmation of the collaboration of Shakespeare with his contemporaries Fletcher and Christopher Marlowe \cite{matthews1993neural,merriam1994neural}  as well as the
+% resolution of disputed authorship in twelve of the Federalist Papers by Frederick Mosteller and David Wallace \cite{mosteller1964inference}.
+
+Identifying the author of a document also has modern applications such as identifying and linking users across online communities or detecting fraudulent transactions and impersonation attacks.
+
+Thus far, work has focused on predicting authors of single-authored documents such as plays \cite{mendenhall1887characteristic,matthews1993neural,merriam1994neural}, political essays \cite{mosteller1964inference}, or blog posts \cite{narayanan2012feasibility}.
+In contrast, this paper introduces the problem of authorship attribution in multi-authored documents such as academic research papers.
+To the best of our knowledge, this problem has never been tackled before.
+
+However, this problem important. 
+For instance, many computer science conferences employ a double-blind submission process, relying on the fact that identifying the authors of submitted papers based on content and style is impossible or at least highly impractical. 
+We challenge this notion by presenting an stylometric approach that is able to identify the authors of anonymous papers with significant accuracy by exploiting authors' stylistic idiosyncrasies.
+
+Identifying the authors of multi-authored documents presents new challenges.
+Since it is unclear which author contributed which part of a document, we lack ground truth that could be used to build a model for each author.
+Employing a document-level perspective as done in previous work confuses idiosyncrasies of several authors leading to problems during classification (see section \ref{subsec:author_mixing}).
+We propose employing a sentence-level perspective in which we predict an author for each individual sentence and then aggregate those to paper-level author predictions as a more sensible strategy for multi-authored publications. 
+
+The rest of the paper is organized as follows: Section \ref{sec:related_work} discussed related work, section \ref{sec:approach} presents a formal definition of our proposed model, section \ref{sec:experiments} presents features and datasets and section \ref{sec:results} discussed experimental results. 

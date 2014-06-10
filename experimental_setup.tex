@@ -1,0 +1,120 @@
+% !TEX root = cs224_final_paper.tex
+
+\begin{table}[t]
+\begin{center}
+\begin{tabular}{c p{1.5cm} p{2.5cm}}
+ \hline
+& \textbf{Synthetic dataset} & \textbf{Real-world dataset} \\ \hline
+Authors & 108 & 100 \\
+Publications & 360 & 234 \\
+Sentences & 78,577 & 206,300 \\
+ \hline
+\end{tabular}
+\end{center}
+\caption{Descriptive statistics of the datasets}
+\label{table:data}
+\end{table}%
+
+We evaluate our hypothesis on both synthetic and realistic data. We obtained scientific publications available through arXiv. The complete set of PDF documents includes about 700,000 publications. We converted all PDF documents into raw text files using Apache Tika\footnote{http://tika.apache.org/}. For documents in either one of the two datasets we produced sentence tokenizations, POS annotations and dependencies parses using Stanford CoreNLP\footnote{http://nlp.stanford.edu/software/corenlp.shtml} on the converted text files. The datasets are summarized in table \ref{table:data}.
+
+\subsection{Synthetic Data}
+
+In order to evaluate our sentence-level predictions we generated an synthetic dataset with sentence-level labels as follows. Let $A$ be the set of authors such that every author $a \in A$ has more than 10 single-authored papers and more than 120 paragraphs with at least 500 words. Let $P_a$ be the set of paragraphs of more than 500 words written by $a \in A$. We generate a document by randomly picking 3 authors $a_1, a_2, a_3 \in A$ and sampling 40 paragraphs from $P_{a_1}, P_{a_2}, P_{a_3}$ without replacement. We repeat this procedure until not enough paragraphs are left to generate a full document. This procedure yields a corpus of 108 authors, 360 publications, 14,027 paragraphs and 78,577 sentences.  Each author gets approximately the same number of publications and paragraphs.
+
+\subsection{Real-world Data}
+
+To test our model in the real world, we subsample the arXiv dataset. We are interested in distinguishing authors in similar fields, therefore we start from a list of authors (``bootstrap list'') working in the field of social and information networks.
+\footnote{These authors include: Alex Pentland, Bernardo Huberman, Brian Karrer, Johan Ugander, Jon Kleinberg, Jure Leskovec, Lada Adamic, and Lars Backstrom. (sorted by first name)} 
+% We selected all papers written by any of these authors, resulting in a corpus of 150 papers, 169 authors (the 8 authors in the ``bootstrap list'' and their 161 coauthors), 91,036 paragraphs and 183,437 sentences. We note that this dataset is highly imbalanced. The 8 bootstrapped authors have a large amount of training data while their co-authors have relatively little training data.
+We sample a set of papers written by any of these authors and their coauthors, controlling each author to have at most 10 papers. We get a corpus of 234 papers, 100 authors (the 8 authors in the ``bootstrap list'' and their 92 coauthors) and 206,300 sentences.
+
+
+\subsection{Features}\ref{sec:features}
+
+The parameters of our models correspond to features categorized into content and style. Table \ref{table:features} contains a detailed description of the feature space we are considering. We acknowledge that that some features, such as character n-grams, are somewhat ambiguous in terms of their category and could be considered both content and style features.  
+
+Among stylistic features, \textit{function words} are defined as
+all words other than nouns, verbs, adjectives, and adverbs (which are
+regarded as ``content words''), indicated by their POS tags. In
+function word features, numbers are unified into a placeholder
+\texttt{-NUMBER-} to hide content and reduce sparcity.
+
+\begin{table*}[t]
+\begin{center}
+\small
+\bgroup
+\def\arraystretch{1.5}
+\begin{tabular}{l p{3.5cm} p{5cm} p{4cm}}
+ \hline
+\textbf{Type} & \textbf{Feature Name} & \textbf{Description} & \textbf{Examples} \\ 
+\hline
+Content   & Word N-grams       & Unigrams, bigrams, and trigrams of all words.        & ``a distance matrix'', ``quartet topologies embedded''   \\
+          & Character N-grams  & Bigrams and trigrams of characters.                  & ``NWD'', ``Ref''                  \\
+\hline
+Stylistic & Character unigrams & Unigrams of characters.                             & \%, \{, ~                           \\
+          & POS tag N-grams    & Unigrams and bigrams of POS tags (tagged by NLTK default Penn Treebank POS tagger). &  DT NN, PRP VBP, -LRB- NN \\
+          & Function word N-grams & unigrams, bigrams, and trigrams of function words.  & ``under our'', ``but all the''    \\
+          & Lengths            & Sentence length and average word length of each sentence. & 81 chars, 17 words, average word length=4.7 \\
+          & Sentence start     & First word in sentence if it is a function word.    & ``We'', ``It'', ``However''       \\
+          & Transition words   & First word after a punctuation if it is a function word. & ``However, we observe'' would give the feature ``we''.\\
+          & Punctuation sequence & Concatenation of all the punctuations in a sentence. & ``.'', ``,.'', ``,;,.'', ``,().'' \\
+          & Sentence shape     & Punctuation sequence and number of words (``M'' if more than 3) between each two punctuations. & ``3,M;2,M.'' \\
+\hline
+\end{tabular}
+\egroup
+\end{center}
+\caption{Features}
+\label{table:features}
+\end{table*}
+
+
+%
+%\subsection{Content features}
+%
+%We use the following features that captures the content:
+%
+%
+%\begin{itemize}
+%\small
+%\item
+%  \textbf{Word N-grams} (unigrams, bigrams, and trigrams)
+%\item
+%  \textbf{Character bigrams and trigrams}
+%\end{itemize}
+%
+%\subsection{Stylistic Features}
+%
+%We design the following stylistic features:
+%
+%\begin{itemize}
+%\small
+%\item
+%  \textbf{Character unigrams}
+%\item
+%  \textbf{POS tag N-grams} (unigrams and bigrams). We used NLTK default POS tagger (Penn Treebank) to obtain POS tags.
+%\item
+%  \textbf{Function word N-grams} (unigram, bigram, trigram). Function
+%  words are defined as all words other than nouns, verbs, adjectives,
+%  and adverbs (which are regarded as ``content words''), indicated by
+%  their POS tags. In function word features, Numbers are unified into a
+%  placeholder \texttt{-NUMBER-} to hide content and reduce sparcity.
+%\item
+%  \textbf{Sentence length} and \textbf{average word length} for each sentence.
+%\item
+%  \textbf{Sentence start}: we capture how a sentence is started by its
+%  first word if it is a function word. (e.g. ``We'', ``It'',
+%  ``However'')
+%\item
+%  \textbf{Transition words}: we capture how transitions are made by
+%  every first word after a punctuation if it is a function word. (e.g.
+%  ``However, we observe'' would give the feature ``we'')
+%\item
+%  \textbf{Punctuation sequence}: we concatenate all the punctuations in a
+%  sentence as a feature to capture punctuation habits in sentences.
+%  (e.g. ``,,,,.'' or ``,;,.'')
+%\item
+%  \textbf{Sentence shape}: we capture sentence shape by punctuations and
+%  the number of words between each two of them. If there are more than 3
+%  words between two punctuations, we mark it as ``many''. (e.g.
+%  ``3,M;2,M.'')
+%\end{itemize}
